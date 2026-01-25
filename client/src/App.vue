@@ -1,11 +1,29 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <RouterView />
 </template>
 
-<style scoped></style>
+<style>
+html,
+body,
+#app {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-family: monospace;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container {
+  min-width: 35vw;
+  min-height: 20vh;
+}
+</style>
