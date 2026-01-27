@@ -61,7 +61,7 @@ const getStock = async () => {
           <input v-model="symbol" placeholder="AAPL" id="symbol" :disabled="loading" />
           <button class="bg-green" @click="getStock" :disabled="loading">Search</button>
         </div>
-        <div v-if="stockData">{{ symbol.toUpperCase() }}: ${{ stockData?.openingPrice }}</div>
+        <div v-if="stockData" class="banner-success">{{ symbol.toUpperCase() }}: ${{ stockData?.openingPrice }}</div>
       </div>
     </main>
   </div>
@@ -152,5 +152,13 @@ button {
 
 .bg-green {
   background-color: rgb(84, 209, 84);
+}
+
+.banner-success {
+  background-color: rgba(84, 209, 84, 0.4);
+  border: 1px solid rgba(67, 151, 74, 0.8);
+  padding: 3px 5px;
+  border-radius: 5px;
+  margin-top: 1vh;
 }
 </style>

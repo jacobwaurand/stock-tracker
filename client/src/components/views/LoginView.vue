@@ -3,12 +3,18 @@ import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import router from '@/router'
 
+interface BannerObj {
+  type: string
+  text: string
+}
+
 const email = ref('')
 const password = ref('')
 const isCreating = ref(false)
 const isLoading = ref(false)
+const bannerObj = ref<BannerObj | null>(null)
 
-// cumputed properties
+// computed properties
 const buttonText = computed(() => {
   return isCreating.value ? 'Create Account' : 'Sign In'
 })
@@ -19,6 +25,13 @@ const mutedText = computed(() => {
 
 const buttonColor = computed(() => {
   return isCreating.value ? 'bg-blue' : 'bg-green'
+})
+
+const bannerClass = computed(() => {
+  if (!bannerObj.value) {
+    return ''
+  }
+  return bannerObj.value.type === 'error' ? 'banner-error' : 'banner-success'
 })
 
 //functions
@@ -40,14 +53,24 @@ const submit = async () => {
   } catch (e) {
     console.error(e)
   }
-
   isLoading.value = false
+
+  clearBanner()
 }
 
 const signIn = async () => {
   const authStore = useAuthStore()
-  await authStore.login(email.value, password.value)
+  const res = await authStore.login(email.value, password.value)
+  if (res.error) {
+    bannerObj.value = { type: 'error', text: res.error }
+  }
   router.push('/')
+}
+
+const clearBanner = async () => {
+  setTimeout(() => {
+    bannerObj.value = null
+  }, 3000)
 }
 
 const createAccount = async () => {
@@ -58,6 +81,16 @@ const createAccount = async () => {
     },
     body: JSON.stringify({ email: email.value, password: password.value }),
   })
+
+  const res = await response.json()
+
+  if (res.error) {
+    bannerObj.value = { type: 'error', text: res.error }
+  }
+
+  if (res.user) {
+    bannerObj.value = { type: 'success', text: 'Account Created' }
+  }
 }
 </script>
 
@@ -71,6 +104,7 @@ const createAccount = async () => {
       <input v-model="password" class="mb-1 text-white" placeholder="Password" id="password" type="password" :disabled="isLoading" />
       <button :class="[buttonColor, 'mb-1', 'pointer']" @click="submit" :disabled="isLoading">{{ buttonText }}</button>
       <span class="create pointer" @click="onCreate">{{ mutedText }}</span>
+      <div v-if="bannerObj" :class="bannerClass">{{ bannerObj.text }}</div>
     </div>
   </div>
 </template>
@@ -89,7 +123,7 @@ const createAccount = async () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 1vw 0 0;
+  margin: 1vh 1vw 1vh 0;
 }
 
 .login-logo {
@@ -126,6 +160,21 @@ button {
   font-weight: bold;
 }
 
+.banner-error {
+  background-color: rgba(151, 67, 67, 0.5);
+  border: 1px solid rgba(151, 67, 67, 0.8);
+  padding: 3px 5px;
+  border-radius: 5px;
+  margin-top: 1vh;
+}
+
+.banner-success {
+  background-color: rgba(67, 151, 74, 0.8);
+  border: 1px solid rgba(67, 151, 74, 0.5);
+  padding: 3px 5px;
+  border-radius: 5px;
+  margin-top: 1vh;
+}
 .pointer {
   cursor: pointer;
 }
