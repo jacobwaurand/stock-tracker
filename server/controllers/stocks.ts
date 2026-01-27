@@ -17,7 +17,7 @@ export const getOpeningPrice = async (c: Context) => {
 
   return c.json({
     symbol: symbol.toUpperCase(),
-    openingPrice: data.o, // 'o' is the Open price of the day in Finnhub
+    openingPrice: data.o,
     currentPrice: data.c,
     timestamp: Date.now(),
   });
