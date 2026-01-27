@@ -5,7 +5,6 @@ import router from '@/router'
 
 interface StockData {
   openingPrice: number
-  currentPrice: number
   symbol: string
 }
 
@@ -41,6 +40,7 @@ const getStock = async () => {
   } catch (e) {
     console.error(e)
   }
+  symbol.value = ''
   loading.value = false
 }
 </script>
@@ -77,8 +77,8 @@ const getStock = async () => {
 
 .card {
   padding: 10px;
-  min-width: 35vw;
-  min-height: 12ch;
+  min-width: 20vw;
+  min-height: 12vh;
   border: 1px solid rgb(31, 31, 31);
   border-radius: 15px;
   background-color: rgb(12, 12, 12);
@@ -160,5 +160,6 @@ button {
   padding: 3px 5px;
   border-radius: 5px;
   margin-top: 1vh;
+  font-weight: bold;
 }
 </style>

@@ -2,9 +2,11 @@ import type { Context } from "hono";
 
 export const getOpeningPrice = async (c: Context) => {
   const symbol = c.req.query("symbol");
+
   if (!symbol) {
     return c.json({ error: "Symbol query parameter is required" }, 400);
   }
+
   const apiKey = process.env.FINNHUB_API_KEY;
 
   const response = await fetch(
@@ -13,12 +15,9 @@ export const getOpeningPrice = async (c: Context) => {
 
   const data: any = await response.json();
 
-  console.log("Fetched stock data:", data);
-
   return c.json({
     symbol: symbol.toUpperCase(),
     openingPrice: data.o,
-    currentPrice: data.c,
     timestamp: Date.now(),
   });
 };

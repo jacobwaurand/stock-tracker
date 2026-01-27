@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
 import { cors } from "hono/cors";
-import { signUp, login } from "./controllers/auth";
+import { createAccount, signIn } from "./controllers/auth";
 import { getOpeningPrice } from "./controllers/stocks";
 
 const app = new Hono();
@@ -18,8 +18,8 @@ app.use(
   }),
 );
 
-app.post("/auth/signup", signUp);
-app.post("/auth/login", login);
+app.post("/auth/create-account", createAccount);
+app.post("/auth/sign-in", signIn);
 
 const authMiddleware = jwt({ secret: process.env.JWT_SECRET!, alg: "HS256" });
 

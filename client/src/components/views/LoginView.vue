@@ -53,6 +53,9 @@ const submit = async () => {
   } catch (e) {
     console.error(e)
   }
+
+  email.value = ''
+  password.value = ''
   isLoading.value = false
 
   clearBanner()
@@ -74,7 +77,7 @@ const clearBanner = async () => {
 }
 
 const createAccount = async () => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/create-account`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
