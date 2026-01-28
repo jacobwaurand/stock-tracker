@@ -61,7 +61,7 @@ const getStock = async () => {
           <input v-model="symbol" placeholder="AAPL" id="symbol" :disabled="loading" />
           <button class="bg-green" @click="getStock" :disabled="loading">Search</button>
         </div>
-        <div v-if="stockData" class="banner-success">{{ stockData.symbol.toUpperCase() }}: ${{ stockData?.openingPrice }}</div>
+        <div v-if="stockData" class="banner-success">{{ stockData?.symbol.toUpperCase() }}: ${{ stockData?.openingPrice }}</div>
       </div>
     </main>
   </div>

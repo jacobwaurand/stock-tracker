@@ -25,6 +25,8 @@ const authMiddleware = jwt({ secret: process.env.JWT_SECRET!, alg: "HS256" });
 
 app.get("/stocks/open", authMiddleware, getOpeningPrice);
 
+export { app };
+
 export default {
   port: process.env.PORT,
   fetch: app.fetch,
